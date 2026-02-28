@@ -101,42 +101,75 @@ const ShareSystem = (() => {
     drawDivider(ctx, y, W);
     y += 28;
 
-    // Quote
-    ctx.textAlign = 'center';
+    // === QUOTE HIGHLIGHT CARD ===
+    // Background panel
+    const quoteBoxX = 36;
+    const quoteBoxW = W - 72;
+
+    // Measure quote text first to size the box
+    ctx.font = 'bold 17px "Noto Sans KR", sans-serif';
+    const quoteText = ending.quote;
+    const tempLines = measureWrap(ctx, quoteText, quoteBoxW - 80, 26);
+    const quoteBoxH = Math.max(100, tempLines * 26 + 70);
+
+    // Quote box background with gradient feel
+    ctx.fillStyle = '#16132b';
+    roundRect(ctx, quoteBoxX, y, quoteBoxW, quoteBoxH, 12);
+    ctx.fill();
+
+    // Subtle left accent bar
     ctx.fillStyle = '#fd79a8';
-    ctx.font = 'italic 14px "Noto Sans KR", sans-serif';
-    const quoteLines = wrapText(ctx, `"${ending.quote}"`, W / 2, y, W - 100, 22);
-    y += quoteLines * 22 + 20;
+    roundRect(ctx, quoteBoxX, y, 5, quoteBoxH, 12);
+    ctx.fill();
+    // Overdraw right part of rounded bar to make it a straight left edge accent
+    ctx.fillStyle = '#fd79a8';
+    ctx.fillRect(quoteBoxX + 3, y + 3, 2, quoteBoxH - 6);
+
+    // Large decorative quote mark
+    ctx.fillStyle = 'rgba(253, 121, 168, 0.25)';
+    ctx.font = 'bold 60px serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('\u201C', quoteBoxX + 16, y + 50);
+
+    // Quote text
+    ctx.fillStyle = '#fd79a8';
+    ctx.font = 'bold 17px "Noto Sans KR", sans-serif';
+    ctx.textAlign = 'center';
+    const quoteLines = wrapText(ctx, quoteText, W / 2, y + 38, quoteBoxW - 80, 26);
+
+    // "오늘의 교훈" label at bottom-right of quote box
+    ctx.fillStyle = 'rgba(253, 121, 168, 0.4)';
+    ctx.font = '12px "Noto Sans KR", sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('— 오늘의 교훈', quoteBoxX + quoteBoxW - 20, y + quoteBoxH - 14);
+
+    y += quoteBoxH + 18;
 
     // Failure/Success message
+    ctx.textAlign = 'center';
     if (!isSuccess) {
-      // Failure box
-      ctx.strokeStyle = '#e17055';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([6, 4]);
-      ctx.strokeRect(50, y - 4, W - 100, 44);
-      ctx.setLineDash([]);
-
       ctx.fillStyle = '#e17055';
       ctx.font = '14px "Noto Sans KR", sans-serif';
-      ctx.fillText('당신은 다수의 편에 섰습니다.', W / 2, y + 17);
-      ctx.fillText('96.6%의 창업자가 여기서 쓰러졌습니다.', W / 2, y + 36);
-      y += 60;
-    } else {
-      ctx.strokeStyle = '#00b894';
+      ctx.fillText('당신은 다수의 편에 섰습니다. 96.6%의 창업자가 여기서 쓰러졌습니다.', W / 2, y);
+      // Underline decoration
+      ctx.strokeStyle = 'rgba(225, 112, 85, 0.3)';
       ctx.lineWidth = 1;
-      ctx.strokeRect(50, y - 4, W - 100, 34);
-
+      ctx.beginPath();
+      ctx.moveTo(80, y + 6);
+      ctx.lineTo(W - 80, y + 6);
+      ctx.stroke();
+      y += 30;
+    } else {
       ctx.fillStyle = '#00b894';
-      ctx.font = 'bold 14px "Noto Sans KR", sans-serif';
-      ctx.fillText('✨ 당신은 상위 3.4%입니다. 실화입니까?', W / 2, y + 20);
-      y += 50;
+      ctx.font = 'bold 15px "Noto Sans KR", sans-serif';
+      ctx.fillText('✨ 당신은 상위 3.4%입니다. 실화입니까?', W / 2, y);
+      y += 30;
     }
 
     // CTA
     ctx.fillStyle = accentColor;
     ctx.font = 'bold 16px "Noto Sans KR", sans-serif';
-    ctx.fillText('나도 도전하기 →', W / 2, Math.min(y + 10, H - 30));
+    ctx.fillText('나도 도전하기 →', W / 2, y + 6);
 
     // Resize canvas to actual content height if needed
     const actualH = Math.min(y + 40, H);
@@ -155,6 +188,36 @@ const ShareSystem = (() => {
 
     // Download
     downloadCanvas(canvas);
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  function measureWrap(ctx, text, maxWidth) {
+    const chars = text.split('');
+    let line = '';
+    let count = 1;
+    for (let i = 0; i < chars.length; i++) {
+      const testLine = line + chars[i];
+      if (ctx.measureText(testLine).width > maxWidth && line.length > 0) {
+        count++;
+        line = chars[i];
+      } else {
+        line = testLine;
+      }
+    }
+    return count;
   }
 
   function drawDivider(ctx, y, W) {
