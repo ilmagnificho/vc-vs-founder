@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>스타트업 서바이벌 RPG - EP.1 Pre-A 라운드</title>
+
+  <!-- OG Tags -->
+  <meta property="og:title" content="스타트업 서바이벌 RPG - EP.1">
+  <meta property="og:description" content="창업자 vs VC. 당신의 선택은? 한국 스타트업 생태계를 풍자하는 텍스트 RPG.">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="game-container">
+    <!-- Title Screen -->
+    <div id="screen-title" class="screen active">
+      <div class="title-header">
+        <div class="title-ep">EP.1 - Pre-A 라운드</div>
+        <h1 class="title-main">스타트업<br>서바이벌 RPG</h1>
+        <div class="title-sub">💀 VC vs 창업자 💰</div>
+      </div>
+      <button class="btn-start" id="btn-start">START</button>
+      <div class="title-footer">5-10분 플레이 | 모바일 최적화</div>
+    </div>
+
+    <!-- Role Select Screen -->
+    <div id="screen-select" class="screen">
+      <h2 class="select-title">역할을 선택하세요</h2>
+      <div class="role-cards">
+        <button class="role-card" id="role-founder">
+          <div class="role-emoji">👨‍💻</div>
+          <div class="role-name">창업자</div>
+          <div class="role-quote">"투자 좀 해주세요-<br>아니, 투자 기회를 드리는 겁니다"</div>
+          <div class="role-difficulty">난이도: ★★★★★ (지옥)</div>
+        </button>
+        <div class="role-vs">VS</div>
+        <button class="role-card" id="role-vc">
+          <div class="role-emoji">🧑‍💼</div>
+          <div class="role-name">VC</div>
+          <div class="role-quote">"좋은 사업이시네요.<br>(= 투자 안 합니다)"</div>
+          <div class="role-difficulty">난이도: ★★★☆☆ (천국은 아님)</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="screen-game" class="screen">
+      <div class="game-hud">
+        <div class="hud-chapter" id="hud-chapter">챕터 1</div>
+        <div class="hud-stats" id="hud-stats"></div>
+      </div>
+      <div class="game-content">
+        <div class="narration-box" id="narration-box"></div>
+        <div class="dialogue-box" id="dialogue-box">
+          <div class="speaker" id="speaker"></div>
+          <div class="dialogue-text" id="dialogue-text"></div>
+        </div>
+        <div class="info-box" id="info-box"></div>
+      </div>
+      <div class="game-choices" id="game-choices"></div>
+      <div class="stat-popup-container" id="stat-popup-container"></div>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="screen-result" class="screen">
+      <div class="result-box" id="result-box"></div>
+    </div>
+
+    <!-- Ending Screen -->
+    <div id="screen-ending" class="screen">
+      <div class="ending-card" id="ending-card"></div>
+      <div class="ending-actions" id="ending-actions"></div>
+    </div>
+  </div>
+
+  <canvas id="share-canvas" style="display:none;"></canvas>
+
+  <script src="js/founder.js"></script>
+  <script src="js/vc.js"></script>
+  <script src="js/endings.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/share.js"></script>
+</body>
+</html>
