@@ -1,6 +1,6 @@
 /**
  * OG Image Generator - 1200x630px
- * Simple, provocative design
+ * Ultra-minimal: VC vs 창업자 confrontation
  * Run: node scripts/generate-og.js
  */
 const { createCanvas } = require('canvas');
@@ -18,8 +18,8 @@ const FONT = '"WenQuanYi Zen Hei", "IPAPGothic", sans-serif';
 ctx.fillStyle = '#0a0a1a';
 ctx.fillRect(0, 0, W, H);
 
-// Subtle grid
-ctx.strokeStyle = 'rgba(108, 92, 231, 0.05)';
+// Subtle grid pattern
+ctx.strokeStyle = 'rgba(108, 92, 231, 0.04)';
 ctx.lineWidth = 1;
 for (let x = 0; x < W; x += 60) {
   ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
@@ -28,48 +28,44 @@ for (let y = 0; y < H; y += 60) {
   ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
 }
 
-// Border
+// Thin purple border
 ctx.strokeStyle = '#6c5ce7';
-ctx.lineWidth = 4;
-ctx.strokeRect(12, 12, W - 24, H - 24);
+ctx.lineWidth = 3;
+ctx.strokeRect(10, 10, W - 20, H - 20);
 
-// === CENTER: Provocative headline ===
 ctx.textAlign = 'center';
 
-// Small top label
-ctx.fillStyle = '#666';
-ctx.font = `16px ${FONT}`;
-ctx.fillText('EP.1 - Pre-A 라운드', W / 2, 140);
+// === "VC vs 창업자" — THE dominant visual ===
+const vsY = 270;
 
-// Main provocative title — BIG
-ctx.fillStyle = '#fff';
-ctx.font = `bold 72px ${FONT}`;
-ctx.fillText('절대 투자 못 받는', W / 2, 250);
-ctx.fillText('시뮬레이터', W / 2, 340);
-
-// Accent line under title
+// "VC" on left
 ctx.fillStyle = '#6c5ce7';
-ctx.fillRect(W / 2 - 200, 365, 400, 4);
+ctx.font = `bold 120px ${FONT}`;
+ctx.fillText('VC', W / 2 - 200, vsY);
 
-// Provocative subtitle — pink, witty
+// "vs" small in the middle
+ctx.fillStyle = '#555';
+ctx.font = `bold 40px ${FONT}`;
+ctx.fillText('vs', W / 2, vsY - 10);
+
+// "창업자" on right
 ctx.fillStyle = '#fd79a8';
-ctx.font = `bold 24px ${FONT}`;
-ctx.fillText('VC가 "좋은 사업이시네요"라고 하면 투자 안 한다는 뜻이다', W / 2, 420);
+ctx.font = `bold 100px ${FONT}`;
+ctx.fillText('창업자', W / 2 + 240, vsY);
 
-// Difficulty / clear rate
-ctx.fillStyle = '#e17055';
-ctx.font = `bold 20px ${FONT}`;
-ctx.fillText('극악 난이도  |  클리어율 3.4%  |  96.6% 사망', W / 2, 480);
-
-// CTA
+// Accent line
 ctx.fillStyle = '#6c5ce7';
-ctx.font = `bold 22px ${FONT}`;
-ctx.fillText('나도 도전하기  >>', W / 2, 540);
+ctx.fillRect(W / 2 - 350, vsY + 30, 700, 3);
 
-// Tiny footer
+// === Main tagline ===
+ctx.fillStyle = '#fff';
+ctx.font = `bold 48px ${FONT}`;
+ctx.fillText('절대 투자 못 받는 시뮬레이터', W / 2, vsY + 100);
+
+// Tiny bottom label
 ctx.fillStyle = '#444';
-ctx.font = `14px ${FONT}`;
-ctx.fillText('5-10분 플레이  |  모바일 최적화', W / 2, 585);
+ctx.font = `18px ${FONT}`;
+ctx.fillText('EP.1  Pre-A 라운드', W / 2, H - 50);
 
 // === SAVE ===
 const buffer = canvas.toBuffer('image/png');
