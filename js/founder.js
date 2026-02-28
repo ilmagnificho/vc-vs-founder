@@ -1,5 +1,6 @@
 /**
- * Founder Route Scenarios - 4 Chapters
+ * Founder Route Scenarios - 4 Chapters (EXTREME DIFFICULTY)
+ * 모든 선택지에 함정이 있다. 좋아 보이는 선택도 뒤통수를 친다.
  */
 const FounderScenarios = [
   // ===== CHAPTER 1: IR 준비 — "시작부터 난관" =====
@@ -11,9 +12,37 @@ const FounderScenarios = [
         id: 'f_ch1_intro',
         chapter: 1,
         speaker: null,
-        narration: '당신은 퇴사 후 3개월째. 통장 잔고가 당신의 자존심보다 빠르게 줄고 있다.',
+        narration: '당신은 퇴사 후 3개월째. 통장 잔고가 당신의 자존심보다 빠르게 줄고 있다.\n\n전 직장 동기들의 인스타: 해외 출장, 승진 축하. 당신의 인스타: 3개월째 업데이트 없음.',
         text: null,
-        choices: null, // narration-only, auto-advance
+        choices: null,
+        condition: null,
+      },
+      {
+        id: 'f_ch1_ev0',
+        chapter: 1,
+        speaker: { name: '엄마', emoji: '📞' },
+        narration: '첫째 날 아침. 엄마에게서 전화가 왔다.',
+        text: '아들, 그래서 그 회사는 언제 돈을 벌어? 네 아버지가 걱정을...',
+        choices: [
+          {
+            text: '"곧이요 엄마" (거짓말)',
+            effects: { mental: -10 },
+            result: '"곧"이라는 단어가 입에서 나온 순간, 스스로도 믿지 못했다.\n\n거짓말의 무게가 멘탈을 깎는다.',
+            flags: ['lied_to_mom'],
+          },
+          {
+            text: '"솔직히 아직 모르겠어요"',
+            effects: { mental: -15 },
+            result: '3초간의 침묵. "...그래, 건강은 챙겨라."\n\n그 침묵에 만감이 교차한다. 솔직함이 이렇게 아플 줄이야.',
+            flags: ['honest_to_mom'],
+          },
+          {
+            text: '전화를 안 받는다',
+            effects: { mental: -5, runway: -0.5 },
+            result: '부재중 전화 7통. 걱정한 엄마가 택배로 반찬을 보냈다. 택배비가 아깝지만 그 마음은 아프다.\n\n...참, 이번 달 핸드폰 요금도 밀렸다.',
+            flags: [],
+          },
+        ],
         condition: null,
       },
       {
@@ -25,20 +54,20 @@ const FounderScenarios = [
         choices: [
           {
             text: '"10조면 10조라고 써"',
-            effects: { persuasion: 5 },
-            result: '정직한 선택. 나중에 VC가 "정직한 팀이네요"라고 말할 수도 있다. 물론 투자로 이어질지는 별개의 문제다.',
+            effects: { persuasion: 3 },
+            result: '정직한 선택. 하지만 VC는 "시장이 작네요"라고 말할 것이다.\n\n정직함이 항상 보상받는 건 아니다.',
             flags: ['tam_honest'],
           },
           {
             text: '"100조. 꿈은 크게."',
-            effects: { persuasion: 15 },
-            result: 'TAM 100조. 당신의 IR덱은 이제 판타지 소설과 구분이 어렵습니다.',
+            effects: { persuasion: 10, mental: -5 },
+            result: 'TAM 100조. 당신의 IR덱은 이제 판타지 소설과 구분이 어렵습니다.\n\n하지만 나중에 이 숫자를 설명해야 할 때가 온다...',
             flags: ['tam_100'],
           },
           {
             text: '"SAM/SOM까지 논리적으로"',
-            effects: { mental: -10, runway: -1, persuasion: 20 },
-            result: '2주를 태워 시장 분석을 했다. 런웨이가 줄었지만, 이 정도 논리면 어떤 VC든 고개를 끄덕일 것이다. 아마도.',
+            effects: { mental: -15, runway: -1, persuasion: 15 },
+            result: '2주를 태워 시장 분석을 했다. 런웨이가 줄었다. 멘탈도 줄었다.\n\n논리적인 건 좋은데, 그 2주 동안 월세가 밀렸다.',
             flags: ['tam_logical'],
           },
         ],
@@ -49,25 +78,54 @@ const FounderScenarios = [
         chapter: 1,
         speaker: { name: '디자이너', emoji: '🎨' },
         narration: null,
-        text: 'PPT요? 노션이요? 아니면 요즘은 피그마로-',
+        text: 'PPT요? 노션이요? 아니면 요즘은 피그마로- 아, 근데 저 다음 달부터 프리랜서비 올려야 할 것 같아요.',
         choices: [
           {
             text: 'PPT (클래식)',
-            effects: {},
-            result: '무난함. 무난함이라는 건 기억에 안 남는다는 뜻이기도 하지만.',
+            effects: { persuasion: -5 },
+            result: '무난함. 무난함이라는 건 기억에 안 남는다는 뜻이기도 하지만.\n\nVC가 "PPT요? 요즘 누가 PPT를..."이라고 말한 건 나중 이야기.',
             flags: ['deck_ppt'],
           },
           {
             text: '피그마 (예쁘게)',
-            effects: { runway: -1, mental: -10, persuasion: 10 },
-            result: '2주를 태웠다. 그래도 예쁘긴 하다. 예쁜 덱이 투자를 보장하진 않지만, 못생긴 덱보다는 낫다.',
+            effects: { runway: -1.5, mental: -15, persuasion: 10 },
+            result: '3주를 태웠다. 디자이너 비용도 올랐다. 런웨이가 녹는다.\n\n예쁘긴 하다. 하지만 예쁜 덱이 투자를 보장하진 않는다. 전혀.',
             flags: ['deck_figma'],
           },
           {
             text: '노션 (빠르게)',
-            effects: { mental: 5 },
-            result: '어떤 VC가 말했다. "노션 IR이요? 음-" 그 \'음-\'에 만감이 교차한다.',
+            effects: { mental: -5, persuasion: -10 },
+            result: '빠르긴 했다. 하루 만에 완성.\n\n"노션 IR이요? 음-" VC의 그 \'음-\'에 당신의 진지함이 의심받기 시작했다.',
             flags: ['deck_notion'],
+          },
+        ],
+        condition: null,
+      },
+      // 챕터1 마지막 함정: CTO 동요
+      {
+        id: 'f_ch1_ev3',
+        chapter: 1,
+        speaker: { name: 'CTO 박모씨', emoji: '👨‍💻' },
+        narration: 'IR 준비 중, CTO에게서 카톡이 왔다.',
+        text: '대표님... 저 전 회사에서 연락 왔는데요. 연봉 1.5배에 RSU까지 준다고... 솔직히 고민되네요.',
+        choices: [
+          {
+            text: '"지분 1% 더 줄게. 부탁이야."',
+            effects: { mental: -10, persuasion: -5 },
+            result: 'CTO는 남았다. 하지만 지분이 희석됐고, 이 사실을 VC에게 설명해야 할 날이 올 것이다.\n\n"캡 테이블이 좀..."',
+            flags: ['cto_stayed_equity'],
+          },
+          {
+            text: '"가야 할 것 같으면 가. 억지로 못 잡아."',
+            effects: { mental: -25, persuasion: -15 },
+            result: 'CTO가 떠났다. 2인 팀이 1인 팀이 됐다.\n\nVC: "팀이... 대표님 혼자세요?"\n\n혼자서 개발, 기획, IR을 다 해야 한다. 수면 시간: 4시간.',
+            flags: ['cto_left'],
+          },
+          {
+            text: '"우리 비전을 다시 이야기하자" (설득)',
+            effects: { mental: -10, runway: -0.5 },
+            result: '밤새 카페에서 비전을 나눴다. 밥값은 당신이 냈다.\n\nCTO: "...한 번만 더 믿어볼게요. 근데 3개월 안에 투자 안 되면 저도 생각이 있어요."',
+            flags: ['cto_3month_ultimatum'],
           },
         ],
         condition: null,
@@ -84,9 +142,9 @@ const FounderScenarios = [
         id: 'f_ch2_intro',
         chapter: 2,
         speaker: null,
-        narration: 'VC 30곳에 메일을 보냈다. 3일이 지났다.',
-        infoBox: '📊 결과:\n읽씹: 22건\n자동회신 "검토 후 연락드리겠습니다": 6건\n"현재 신규 투자 중단": 1건\n미팅 수락: 1건 (주니어 심사역)',
-        text: '1/30. 프로야구 타율로 치면 0.033. 투수도 이것보단 잘 친다.',
+        narration: 'VC 50곳에 메일을 보냈다. 5일이 지났다.',
+        infoBox: '📊 결과:\n읽씹: 38건\n자동회신 "검토 후 연락드리겠습니다": 8건\n"현재 신규 투자 중단": 2건\n"저희 투자 분야가 아닙니다": 1건\n미팅 수락: 1건 (주니어 심사역)\n\n응답률: 2%',
+        text: '1/50. 복권 당첨 확률보다는 높다. 그게 위안이 된다면.',
         choices: null,
         condition: null,
       },
@@ -99,20 +157,20 @@ const FounderScenarios = [
         choices: [
           {
             text: '주니어라도 만나자',
-            effects: { persuasion: 5 },
-            result: '겸손은 미덕이다. 특히 통장 잔고가 바닥일 때.',
+            effects: { persuasion: 3, mental: -5 },
+            result: '겸손은 미덕이다. 특히 통장 잔고가 바닥일 때.\n\n하지만 주니어는 결정권이 없다. "파트너님께 전달해볼게요~" = "잊어버릴게요~"',
             flags: ['met_junior'],
           },
           {
             text: '팔로업 메일 3연발',
-            effects: { mental: -15 },
-            result: '3번째 팔로업. "혹시 메일 확인-" 이건 집착이 아니라 열정이라고 자신에게 말한다.\n\n...2곳에서 추가 회신이 왔다.',
+            effects: { mental: -20 },
+            result: '3번째 팔로업. "혹시 메일 확인-"\n\n한 VC에게서 답장이 왔다: "네, 확인했습니다. 현재 관심 분야가 아닙니다."\n\n명확한 거절이 읽씹보다 나은 세상.',
             flags: ['followup_3'],
           },
           {
             text: '링크드인 DM 직접 어택',
-            effects: { mental: -5, persuasion: 10 },
-            result: '파트너 김모씨가 DM을 열었다. "오, 대담하시네요 ㅋ" - 이 \'ㅋ\'가 긍정인지 조롱인지는 미팅에서 알게 된다.',
+            effects: { mental: -10, persuasion: 5 },
+            result: '파트너 김모씨가 DM을 열었다. 그리고... 차단당했다.\n\n다른 파트너 이모씨: "오, 대담하시네요 ㅋ 커피챗 할까요?"\n\n그 \'ㅋ\'와 \'커피챗\' — 둘 다 위험 신호다.',
             flags: ['linkedin_dm'],
           },
         ],
@@ -123,19 +181,42 @@ const FounderScenarios = [
         chapter: 2,
         speaker: { name: '대학 선배', emoji: '🍺' },
         narration: null,
-        text: '야, 내가 XX벤처스 파트너 아는데. 소개시켜줄까? 밥 한번 사라.',
+        text: '야, 내가 XX벤처스 파트너 아는데. 소개시켜줄까? 밥 한번 사라. 아, 와인도.',
         choices: [
           {
-            text: '"감사합니다 선배!"',
-            effects: { runway: -0.5, persuasion: 15 },
-            result: '한국 스타트업 생태계의 화폐 단위: 원(₩), 달러($), 밥값(🍚)\n\n30만원짜리 한우가 투자 미팅으로 바뀌었다. 가성비 최고.',
+            text: '"감사합니다 선배!" (밥값 50만원)',
+            effects: { runway: -1, persuasion: 10, mental: -5 },
+            result: '50만원짜리 오마카세. 선배는 와인 2병을 더 시켰다.\n\n"아, 근데 그 파트너 지금 안식년이래 ㅋㅋ 다른 사람 소개해줄게~"\n\n50만원이 증발했다. 소개는 아직 안 왔다.',
             flags: ['senior_intro'],
           },
           {
             text: '"괜찮아요, 실력으로 할게요"',
-            effects: { mental: 10 },
-            result: '자존심은 지켰다. 하지만 자존심으로 월급을 줄 수는 없다.',
+            effects: { mental: 5, persuasion: -5 },
+            result: '자존심은 지켰다. 하지만 자존심으로 월급을 줄 수는 없다.\n\n선배: "에이, 이 바닥이 다 인맥인데... 너 고집은 여전하다."',
             flags: ['no_intro'],
+          },
+        ],
+        condition: null,
+      },
+      // 추가 함정 이벤트: 투자사 사칭 사기
+      {
+        id: 'f_ch2_ev3',
+        chapter: 2,
+        speaker: { name: '??? 투자사', emoji: '📧' },
+        narration: '알 수 없는 메일이 왔다.',
+        text: '귀사의 서비스에 깊은 관심이 있습니다. 투자 논의를 위해 미팅을 잡고 싶습니다.\n\n- "글로벌 캐피탈 파트너스"',
+        choices: [
+          {
+            text: '즉시 미팅 잡기 (흥분)',
+            effects: { mental: -20, runway: -0.5 },
+            result: '강남 카페에서 만났다. 상대방이 말한다: "저희가 투자하려면 먼저 사업성 평가 비용 500만원을..."\n\n투자사 사칭 사기였다. 시간과 교통비만 날렸다.',
+            flags: ['got_scammed'],
+          },
+          {
+            text: '구글링으로 검증',
+            effects: { mental: -5 },
+            result: '"글로벌 캐피탈 파트너스" — 검색 결과 없음. 주소지: 고시원.\n\n사기였다. 검증하길 잘했지만, 희망이 사라진 후의 허탈함은 어쩔 수 없다.',
+            flags: ['avoided_scam'],
           },
         ],
         condition: null,
@@ -152,10 +233,33 @@ const FounderScenarios = [
         id: 'f_ch3_intro',
         chapter: 3,
         speaker: null,
-        narration: '드디어 VC 미팅. 강남 어딘가의 유리벽 회의실. 맞은편에 앉은 사람이 당신의 운명을 쥐고 있다.',
+        narration: '드디어 VC 미팅. 강남 어딘가의 유리벽 회의실.\n\n맞은편에 앉은 사람이 당신의 운명을 쥐고 있다. 그는 오늘 5번째 미팅이고, 당신에게는 이것이 마지막 기회다.',
         text: null,
         choices: null,
         condition: null,
+      },
+      // CTO 떠난 경우 추가 이벤트
+      {
+        id: 'f_ch3_ev0_no_cto',
+        chapter: 3,
+        speaker: { name: '김파트너', emoji: '🧑‍💼' },
+        narration: '미팅 시작 30초 만에 킬러 질문이 날아왔다.',
+        text: '팀이... 대표님 혼자세요? CTO는요?',
+        choices: [
+          {
+            text: '"비전 차이로 갈라섰습니다" (포장)',
+            effects: { persuasion: -10 },
+            result: '"아... 초기에 팀 리스크가 크시네요."\n\n메모에 \'팀 리스크\'라고 적는 소리가 들린다.',
+            flags: ['team_risk_noted'],
+          },
+          {
+            text: '"1인 개발로도 여기까지 왔습니다" (자신감)',
+            effects: { persuasion: -5, mental: -10 },
+            result: '"대단하시네요. 근데 스케일업은 어떻게...?"\n\n좋은 질문이다. 답이 없어서 문제지.',
+            flags: ['solo_dev'],
+          },
+        ],
+        condition: { flag: 'cto_left' },
       },
       {
         id: 'f_ch3_ev1',
@@ -166,52 +270,52 @@ const FounderScenarios = [
         choices: [
           {
             text: '"저희만의 기술적 해자가-"',
-            effects: { persuasion: 5 },
-            result: 'VC 반응: "특허요? 음..." (메모: \'해자 주장, 검증 필요\')\n\n무난한 답변이다. 무난함은 여기서도 기억에 남지 않는다.',
+            effects: { persuasion: 3 },
+            result: '"특허요? 음..." (메모: \'해자 주장, 검증 필요\')\n\n"해자"라는 단어를 쓰는 순간 VC의 눈이 살짝 식었다. 이 단어를 너무 많은 창업자가 쓴다.',
             resultSpeaker: { name: '김파트너', emoji: '🧑‍💼' },
             flags: [],
           },
           {
             text: '"빅테크는 느립니다. 선점이요."',
-            effects: { persuasion: 10, mental: 5 },
-            result: '"자신감은 좋은데... 근거가?"\n\n그래도 김파트너가 살짝 고개를 끄덕였다. 좋은 신호일 수도 있다.',
+            effects: { persuasion: 5, mental: -5 },
+            result: '"자신감은 좋은데... 근거가?"\n\n그리고 추가 질문: "선점했다가 밀린 케이스도 많지 않나요?"\n\n...대답하기 어려운 질문이다.',
             resultSpeaker: { name: '김파트너', emoji: '🧑‍💼' },
             flags: ['confident_answer'],
           },
           {
             text: '"솔직히 들어오면 힘듭니다. 하지만-"',
-            effects: { persuasion: -15 },
-            result: '김파트너가 노트북을 닫기 시작한다.\n\n솔직함에도 때와 장소가 있다. 지금은 아니었다.',
+            effects: { persuasion: -20, mental: -10 },
+            result: '김파트너가 노트북을 닫기 시작한다.\n\n"하지만" 뒤의 말은 듣지도 않았다. 솔직함에도 때와 장소가 있다.',
             resultSpeaker: { name: '김파트너', emoji: '🧑‍💼' },
             flags: ['too_honest'],
           },
         ],
         condition: null,
       },
-      // TAM 100조 선택 시 강화 이벤트
+      // TAM 100조 선택 시 강화 이벤트 (더 가혹)
       {
         id: 'f_ch3_ev2_tam100',
         chapter: 3,
         speaker: { name: '박심사역', emoji: '📊' },
-        narration: null,
-        text: 'MoM 15%요? paying user 기준이에요? 그리고 아까 TAM 100조라 하셨는데, 산출 근거를 좀-',
+        narration: '심사역이 IR덱을 넘기다 멈췄다.',
+        text: '이거 TAM 100조라고 쓰셨는데... 산출 근거 좀 볼 수 있을까요? 그리고 MoM 15%라고 하셨는데 paying user 기준이에요?',
         choices: [
           {
             text: '대시보드 오픈 (준비 완료)',
-            effects: { persuasion: 20 },
-            result: '데이터를 꺼내는 순간, 심사역의 눈빛이 달라졌다. 숫자는 거짓말을 안 한다. (물론 대시보드 만드느라 2주를 태운 것도 사실이다)',
+            effects: { persuasion: 15, mental: -5 },
+            result: '데이터를 꺼냈다. 심사역 눈빛이 살짝 달라졌다.\n\n하지만: "TAM 산출은 좀 공격적이시네요. 저희 내부 기준으로는 3조 정도인데..."\n\n100조가 3조로 줄어드는 순간.',
             flags: ['dashboard_ready'],
           },
           {
             text: '"그건 좀- 다음에 보내드릴게요"',
-            effects: { persuasion: -20, mental: -10 },
-            result: '미팅이 15분 만에 끝났다. 엘리베이터에서 눈물을 참았다.',
+            effects: { persuasion: -25, mental: -15 },
+            result: '미팅이 12분 만에 끝났다. 악수도 없이.\n\n엘리베이터에서 눈물이 나왔다.',
             flags: ['no_data'],
           },
           {
             text: '"저희는 PMF 전이라 성장에 집중-"',
-            effects: {},
-            result: '"네- 알겠습니다."\n\n그 \'알겠습니다\'는 \'됐습니다\'였다.',
+            effects: { persuasion: -10, mental: -5 },
+            result: '"네- 알겠습니다."\n\n그 \'알겠습니다\'는 \'됐습니다\'였다. 경험치가 쌓이면 이 뉘앙스를 구분할 수 있게 된다.',
             resultSpeaker: { name: '박심사역', emoji: '📊' },
             flags: ['pmf_excuse'],
           },
@@ -228,20 +332,20 @@ const FounderScenarios = [
         choices: [
           {
             text: '대시보드 오픈 (준비 완료)',
-            effects: { persuasion: 15 },
-            result: '데이터를 꺼내는 순간, 심사역이 고개를 끄덕였다. 준비된 팀이라는 인상을 줬다.',
+            effects: { persuasion: 10, mental: -5 },
+            result: '심사역이 고개를 끄덕였다. 하지만 뒤이어: "경쟁사 대비 차별점이 뭐죠?"\n\n끝없는 질문의 바다. 하나를 넘으면 또 하나가 기다린다.',
             flags: ['dashboard_ready'],
           },
           {
             text: '"코호트 분석까지 준비했습니다"',
-            effects: { persuasion: 10 },
-            result: '심사역이 메모를 시작했다. 좋은 신호다.',
+            effects: { persuasion: 8, mental: -5 },
+            result: '심사역이 메모를 시작했다. 좋은 신호... 인 줄 알았는데 메모 내용이 보였다: "코호트 OK, but 시장 규모 의문"',
             flags: ['cohort_ready'],
           },
           {
             text: '"아직 초기라 데이터가 부족하지만-"',
-            effects: { persuasion: -5, mental: -5 },
-            result: '"네- 좀 더 데이터가 쌓이면 다시 뵈죠."\n\n정중한 거절의 서막이다.',
+            effects: { persuasion: -15, mental: -10 },
+            result: '"네- 좀 더 데이터가 쌓이면 다시 뵈죠."\n\n이 문장을 번역하면: "다시 연락하지 마세요."',
             resultSpeaker: { name: '박심사역', emoji: '📊' },
             flags: ['lack_data'],
           },
@@ -257,23 +361,46 @@ const FounderScenarios = [
         choices: [
           {
             text: '"네! 다음 주 어떠세요?" (적극)',
-            effects: { persuasion: 5 },
+            effects: { persuasion: 3, mental: -5 },
             result: null,
             flags: ['active_followup'],
-            probabilityCheck: { successRate: 0.5, successFlag: 'followup_success', failFlag: 'followup_fail' },
+            probabilityCheck: { successRate: 0.3, successFlag: 'followup_success', failFlag: 'followup_fail' },
           },
           {
             text: '"구체적인 다음 스텝이 있을까요?" (직구)',
-            effects: { mental: -5 },
-            result: '"아, 내부 검토 후 말씀드릴게요"\n\n번역: 90% 거절. 하지만 10%의 희망이 있다면 물어볼 가치는 있었다.',
+            effects: { mental: -10 },
+            result: '"아, 내부 검토 후 말씀드릴게요"\n\n번역: 95% 거절. 그리고 그 5%의 희망이 당신을 더 힘들게 만든다.',
             resultSpeaker: { name: '김파트너', emoji: '🧑‍💼' },
             flags: ['direct_ask'],
           },
           {
             text: '커피챗 = 거절로 해석. 다른 VC 집중.',
-            effects: { mental: 5 },
-            result: '업계 3년 차 이상만 아는 암묵적 코드. "커피챗 = 정중한 거절"을 학습했다. 성장이다.',
+            effects: { mental: -5, persuasion: 5 },
+            result: '"커피챗 = 정중한 거절"을 학습했다. 성장이다.\n\n하지만 \'다른 VC\'가 남아있긴 한 건지가 문제다.',
             flags: ['learned_coffeechat'],
+          },
+        ],
+        condition: null,
+      },
+      // CH3 마지막 함정: 경쟁사 소식
+      {
+        id: 'f_ch3_ev4',
+        chapter: 3,
+        speaker: { name: '뉴스 알림', emoji: '📰' },
+        narration: '미팅 다음 날, 뉴스 알림이 떴다.',
+        text: '"[속보] XX(당신의 경쟁사), 시리즈A 100억 투자 유치"\n\n같은 시장, 같은 고객, 더 큰 팀, 더 많은 돈.',
+        choices: [
+          {
+            text: '"우리가 더 잘해. 포기 안 해."',
+            effects: { mental: -15 },
+            result: '자신감은 좋다. 하지만 VC는 이미 "시장에 플레이어가 있네요"라는 메모를 했을 것이다.\n\n이제 "왜 당신이 이기는가"를 증명해야 한다. 아, 100억 없이.',
+            flags: ['competitor_funded'],
+          },
+          {
+            text: '"...차별화 전략을 다시 짜자"',
+            effects: { mental: -10, persuasion: -5, runway: -0.5 },
+            result: 'IR덱 수정. 경쟁사 분석 추가. 2주가 또 날아갔다.\n\n하지만 수정한 덱을 볼 VC가 남아있는지가 더 큰 문제다.',
+            flags: ['competitor_funded', 'redid_deck'],
           },
         ],
         condition: null,
@@ -293,75 +420,104 @@ const FounderScenarios = [
         narration: null,
         text: null,
         dynamicNarration: (stats) => {
-          return `마지막 기회. 남은 런웨이 ${stats.runway.value}개월. 멘탈 ${stats.mental.value}%. A캐피탈이 2차 미팅을 제안했다. 이번이 진짜다.`;
+          const runway = stats.runway.value;
+          const mental = stats.mental.value;
+          let extra = '';
+          if (runway <= 2) extra = '\n\n경고: 런웨이가 거의 바닥이다. 이번이 진짜 마지막이다.';
+          if (mental <= 20) extra = '\n\n경고: 멘탈이 위험 수준이다. 조금만 더 버텨야 한다... 버틸 수 있다면.';
+          if (runway <= 2 && mental <= 20) extra = '\n\n⚠️ 런웨이도, 멘탈도 바닥이다. 기적이 필요하다.';
+          return `마지막 기회. 남은 런웨이 ${runway}개월. 멘탈 ${mental}%.\n\nA캐피탈이 2차 미팅을 제안했다. 하지만 그전에...${extra}`;
         },
         choices: null,
         condition: null,
+      },
+      // CTO 최후통첩 이벤트 (3개월 약속한 경우)
+      {
+        id: 'f_ch4_cto_ultimatum',
+        chapter: 4,
+        speaker: { name: 'CTO 박모씨', emoji: '👨‍💻' },
+        narration: null,
+        text: '대표님, 3개월 됐는데요. 솔직히 저도 더 못 버티겠어요. 이번 주까지 투자 소식 없으면... 저 그 오퍼 받으려고요.',
+        choices: [
+          {
+            text: '"이번 주에 결과 나와. 조금만 더." (거짓말일 수도)',
+            effects: { mental: -15 },
+            result: 'CTO의 눈에 의심이 서려있다. 하지만 일단 고개를 끄덕였다.\n\n이번 주... 진짜 결과가 나와야 한다.',
+            flags: ['cto_final_chance'],
+          },
+          {
+            text: '"고마웠어. 가도 괜찮아."',
+            effects: { mental: -20, persuasion: -10 },
+            result: 'CTO가 떠났다. 투심위 직전에.\n\n"팀 변동이 있으시네요?" VC의 질문이 벌써 들린다.',
+            flags: ['cto_left_final'],
+          },
+        ],
+        condition: { flag: 'cto_3month_ultimatum' },
       },
       {
         id: 'f_ch4_ev1',
         chapter: 4,
         speaker: { name: '김파트너', emoji: '🧑‍💼' },
-        narration: 'A캐피탈 회의실. 파트너 5명이 앉아있다. 한 명은 폰을 보고 있다.',
+        narration: 'A캐피탈 회의실. 파트너 5명이 앉아있다. 한 명은 폰을 보고 있고, 한 명은 하품을 참고 있다.',
         text: '자, 마지막으로 한마디만 해주세요. 왜 저희가 투자해야 하나요?',
         choices: [
           {
             text: '숫자로 승부 (데이터 중심)',
             effects: {},
-            result: null, // determined by stat check
+            result: null,
             flags: ['pitch_data'],
-            statCheck: { stat: 'persuasion', threshold: 60, successFlag: 'passed_ic', failFlag: 'failed_ic' },
+            statCheck: { stat: 'persuasion', threshold: 65, successFlag: 'passed_ic', failFlag: 'failed_ic' },
           },
           {
             text: '비전으로 승부 (열정 중심)',
             effects: {},
             result: null,
             flags: ['pitch_vision'],
-            statCheck: { stat: 'mental', threshold: 70, successFlag: 'passed_ic', failFlag: 'failed_ic' },
+            statCheck: { stat: 'mental', threshold: 75, successFlag: 'passed_ic', failFlag: 'failed_ic' },
           },
           {
             text: 'FOMO (다른 VC 언급)',
             effects: {},
             result: null,
             flags: ['pitch_fomo'],
-            statCheck: { stat: 'persuasion', threshold: 50, successFlag: 'passed_ic', failFlag: 'failed_ic' },
+            statCheck: { stat: 'persuasion', threshold: 55, successFlag: 'passed_ic', failFlag: 'failed_ic' },
           },
           {
             text: '솔직하게 (진심)',
             effects: {},
             result: null,
             flags: ['pitch_honest'],
-            statCheck: { type: 'combined', stats: ['persuasion', 'mental'], threshold: 120, successFlag: 'passed_ic', failFlag: 'failed_ic' },
+            statCheck: { type: 'combined', stats: ['persuasion', 'mental'], threshold: 130, successFlag: 'passed_ic', failFlag: 'failed_ic' },
           },
         ],
         condition: null,
       },
-      // 투심위 통과 시
+      // 투심위 통과 시 — 하지만 함정은 계속
       {
         id: 'f_ch4_ev2_pass',
         chapter: 4,
         speaker: { name: '시스템', emoji: '📋' },
-        narration: '📋 텀시트 도착!',
-        text: '투자금: 10억 / Pre 40억 / 우선주 / 희석방지(full ratchet)',
+        narration: '📋 텀시트 도착! ...하지만 조건을 잘 읽어보자.',
+        text: '투자금: 10억 / Pre 30억 (예상보다 낮음) / 우선주 / 희석방지(full ratchet) / 동반매도청구권 / 경영권 관련 특별조항 3개',
         choices: [
           {
-            text: '바로 사인',
+            text: '바로 사인 (런웨이가 없으니까)',
             effects: {},
-            result: '펜을 들었다. 계약서에 사인하는 순간, 안도의 한숨이 나왔다.\n\n...하지만 변호사 친구가 나중에 이 계약서를 보고 고개를 저을 것이다.',
+            result: '펜을 들었다. 계약서에 사인했다.\n\n변호사 친구: "야... 이 조건으로 사인했어? full ratchet에 동반매도청구권까지? 다음 라운드에서 네 지분이..."\n\n축하합니다. 투자금은 들어왔지만 당신의 회사가 아니게 될 수도 있습니다.',
             flags: ['signed_immediately'],
           },
           {
             text: '변호사 검토 요청',
-            effects: { runway: -0.5 },
-            result: '변호사: "full ratchet이요? 이건 좀... weighted average로 수정 요청하세요."\n\n2주의 협상 끝에 조건이 수정됐다. 이 2주가 당신을 구했다.',
+            effects: { runway: -0.5, mental: -10 },
+            result: '변호사: "full ratchet이요? 동반매도청구권? 이건 독소 조항 파티네요. 최소 3개는 수정해야 합니다."\n\n2주의 협상. VC: "이게 우리 표준 조건인데요..."\n\n신경전 끝에 일부 수정 완료. 하지만 런웨이가 또 줄었다.',
             flags: ['lawyer_review'],
           },
           {
             text: '밸류 올려달라고 협상',
-            effects: {},
+            effects: { mental: -10 },
             result: null,
             flags: ['negotiate_valuation'],
-            probabilityCheck: { successRate: 0.5, successFlag: 'valuation_up', failFlag: 'deal_broken' },
+            probabilityCheck: { successRate: 0.25, successFlag: 'valuation_up', failFlag: 'deal_broken' },
           },
         ],
         condition: { flag: 'passed_ic' },
@@ -372,24 +528,24 @@ const FounderScenarios = [
         chapter: 4,
         speaker: { name: 'A캐피탈', emoji: '📧' },
         narration: 'A캐피탈로부터 정중한 메일이 왔다.',
-        text: '"깊이 검토했으나, 현 시점에서는 저희 투자 기준과 다소 차이가 있어... 향후 좋은 기회가 있기를 바랍니다."\n\n번역: 안 합니다.',
+        text: '"깊이 검토했으나, 현 시점에서는 저희 투자 기준과 다소 차이가 있어... 향후 좋은 기회가 있기를 바랍니다."\n\n번역: 안 합니다.\n\n이 메일의 폰트는 왜 이렇게 정갈할까. 거절도 예쁘게 하는 세상.',
         choices: [
           {
             text: '다른 VC 찾기 (계속 도전)',
-            effects: { runway: -1, mental: -20 },
-            result: '다시 콜드메일을 쓴다. 이번엔 좀 더 잘 쓸 수 있다. 쓰러져도 배우는 게 있다.',
+            effects: { runway: -1, mental: -25 },
+            result: '다시 콜드메일을 쓴다. 손이 떨린다.\n\n51번째 메일을 보내고 있다. 이쯤 되면 집착인지 열정인지 자신도 모른다.',
             flags: ['keep_fighting'],
           },
           {
             text: '피봇 (방향 전환)',
-            effects: { mental: -10 },
-            result: '"처음부터 다시"를 "피봇"이라고 부르는 건 스타트업 세계의 가장 우아한 언어적 발명이다.\n\n하지만 때로는 진짜 답이 거기에 있다.',
+            effects: { mental: -15 },
+            result: '"처음부터 다시"를 "피봇"이라고 부르는 건 스타트업 세계의 가장 우아한 언어적 발명이다.\n\n하지만 피봇할 런웨이가 남아있는가?',
             flags: ['pivot'],
           },
           {
             text: '포기 (폐업)',
             effects: {},
-            result: '사업자 등록 말소. 법인 해산 절차.\n\n무겁지만, 끝내는 것도 용기다.',
+            result: '사업자 등록 말소. 법인 해산 절차.\n\n카페에 앉아 이력서를 쓴다. "대표이사" 경력을 어떻게 표현할지 30분째 고민 중.',
             flags: ['give_up'],
           },
         ],

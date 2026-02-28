@@ -32,7 +32,7 @@ const ShareSystem = (() => {
     ctx.fillStyle = '#6c5ce7';
     ctx.font = 'bold 22px "Noto Sans KR", sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('스타트업 서바이벌 RPG', W / 2, 60);
+    ctx.fillText('투자 못 받는 시뮬레이터', W / 2, 60);
 
     ctx.fillStyle = '#888';
     ctx.font = '14px "Noto Sans KR", sans-serif';
@@ -163,7 +163,7 @@ const ShareSystem = (() => {
 
   function downloadCanvas(canvas) {
     const link = document.createElement('a');
-    link.download = 'startup-survival-result.png';
+    link.download = 'investment-simulator-result.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
   }
@@ -171,7 +171,7 @@ const ShareSystem = (() => {
   function getShareText() {
     if (!lastEnding) return '';
     const roleLabel = lastEnding.role === 'founder' ? '창업자' : 'VC';
-    return `${lastEnding.emoji} 스타트업 서바이벌 RPG - ${roleLabel} 루트\n결과: ${lastEnding.title}\n"${lastEnding.subtitle}"\n\n나도 도전하기 →`;
+    return `${lastEnding.emoji} 투자 못 받는 시뮬레이터 - ${roleLabel} 루트\n결과: ${lastEnding.title}\n"${lastEnding.subtitle}"\n클리어율 3.4% | 나도 도전하기 →`;
   }
 
   function shareToX() {
