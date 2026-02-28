@@ -16,9 +16,9 @@ const GameEngine = (() => {
   };
 
   const FOUNDER_STATS = {
-    runway: { value: 6, icon: '💰', label: '런웨이', unit: '개월', max: 12 },
-    mental: { value: 70, icon: '🧠', label: '멘탈', unit: '%', max: 100 },
-    persuasion: { value: 30, icon: '💬', label: '설득력', unit: '', max: 100 },
+    runway: { value: 8, icon: '💰', label: '런웨이', unit: '개월', max: 12 },
+    mental: { value: 80, icon: '🧠', label: '멘탈', unit: '%', max: 100 },
+    persuasion: { value: 40, icon: '💬', label: '설득력', unit: '', max: 100 },
   };
 
   const VC_STATS = {
@@ -29,18 +29,18 @@ const GameEngine = (() => {
 
   // Random disasters that can strike between events (founder only)
   const DISASTERS = [
-    { id: 'cto_quit', text: '⚡ 긴급! CTO가 "저 이직해요"라고 카톡을 보냈다. 새벽 2시에.', effects: { mental: -20, persuasion: -10 }, emoji: '💥' },
-    { id: 'competitor', text: '⚡ 네이버가 당신과 똑같은 서비스를 출시했다. IR덱 1페이지를 다시 써야 한다.', effects: { mental: -15, persuasion: -15 }, emoji: '💥' },
-    { id: 'server_down', text: '⚡ 데모 서버가 터졌다. VC 미팅 30분 전이다.', effects: { mental: -20 }, emoji: '🔥' },
-    { id: 'cofounder_fight', text: '⚡ 공동창업자와 지분 다툼이 시작됐다. "나 없으면 이 회사 못 해"', effects: { mental: -25, runway: -0.5 }, emoji: '💥' },
-    { id: 'bad_review', text: '⚡ 앱스토어에 별 1개 리뷰가 올라왔다. "사기 앱" — 스크린샷과 함께 트위터에서 바이럴.', effects: { mental: -15, persuasion: -5 }, emoji: '📱' },
-    { id: 'tax_bomb', text: '⚡ 세무사에게서 전화가 왔다. "대표님, 부가세 신고 안 하셨는데요..." 가산세 포함 800만원.', effects: { runway: -1, mental: -10 }, emoji: '💸' },
-    { id: 'investor_ghost', text: '⚡ 투자 확정이라던 엔젤 투자자가 잠수를 탔다. 전화도 안 받는다.', effects: { mental: -20, runway: -0.5 }, emoji: '👻' },
-    { id: 'office_evict', text: '⚡ 공유오피스에서 퇴거 통보가 왔다. "임대료 2개월 연체이신데요..."', effects: { runway: -1, mental: -10 }, emoji: '🏢' },
-    { id: 'key_hire_reject', text: '⚡ 3개월 동안 구애했던 핵심 인력이 대기업 오퍼를 선택했다. "스타트업은 좀..."', effects: { mental: -15, persuasion: -5 }, emoji: '💔' },
-    { id: 'regulation', text: '⚡ 정부가 새 규제를 발표했다. 당신의 비즈니스 모델이 직격탄을 맞았다.', effects: { persuasion: -20, mental: -10 }, emoji: '⚖️' },
-    { id: 'demo_fail', text: '⚡ VC 앞에서 라이브 데모를 했는데 로딩이 안 된다. 30초의 침묵이 30년처럼 느껴진다.', effects: { persuasion: -15, mental: -15 }, emoji: '💀' },
-    { id: 'family_pressure', text: '⚡ 명절에 친척이 물었다. "그래서 회사가 돈은 벌어?" 온 가족이 당신을 쳐다본다.', effects: { mental: -20 }, emoji: '🏠' },
+    { id: 'cto_quit', text: '⚡ 긴급! CTO가 "저 이직해요"라고 카톡을 보냈다. 새벽 2시에.', effects: { mental: -10, persuasion: -5 }, emoji: '💥' },
+    { id: 'competitor', text: '⚡ 네이버가 당신과 똑같은 서비스를 출시했다. IR덱 1페이지를 다시 써야 한다.', effects: { mental: -8, persuasion: -8 }, emoji: '💥' },
+    { id: 'server_down', text: '⚡ 데모 서버가 터졌다. VC 미팅 30분 전이다.', effects: { mental: -10 }, emoji: '🔥' },
+    { id: 'cofounder_fight', text: '⚡ 공동창업자와 지분 다툼이 시작됐다. "나 없으면 이 회사 못 해"', effects: { mental: -12 }, emoji: '💥' },
+    { id: 'bad_review', text: '⚡ 앱스토어에 별 1개 리뷰가 올라왔다. "사기 앱" — 스크린샷과 함께 트위터에서 바이럴.', effects: { mental: -8, persuasion: -3 }, emoji: '📱' },
+    { id: 'tax_bomb', text: '⚡ 세무사에게서 전화가 왔다. "대표님, 부가세 신고 안 하셨는데요..." 가산세 포함 800만원.', effects: { runway: -0.5, mental: -5 }, emoji: '💸' },
+    { id: 'investor_ghost', text: '⚡ 투자 확정이라던 엔젤 투자자가 잠수를 탔다. 전화도 안 받는다.', effects: { mental: -10 }, emoji: '👻' },
+    { id: 'office_evict', text: '⚡ 공유오피스에서 퇴거 통보가 왔다. "임대료 2개월 연체이신데요..."', effects: { runway: -0.5, mental: -5 }, emoji: '🏢' },
+    { id: 'key_hire_reject', text: '⚡ 3개월 동안 구애했던 핵심 인력이 대기업 오퍼를 선택했다. "스타트업은 좀..."', effects: { mental: -8, persuasion: -3 }, emoji: '💔' },
+    { id: 'regulation', text: '⚡ 정부가 새 규제를 발표했다. 당신의 비즈니스 모델이 직격탄을 맞았다.', effects: { persuasion: -10, mental: -5 }, emoji: '⚖️' },
+    { id: 'demo_fail', text: '⚡ VC 앞에서 라이브 데모를 했는데 로딩이 안 된다. 30초의 침묵이 30년처럼 느껴진다.', effects: { persuasion: -8, mental: -8 }, emoji: '💀' },
+    { id: 'family_pressure', text: '⚡ 명절에 친척이 물었다. "그래서 회사가 돈은 벌어?" 온 가족이 당신을 쳐다본다.', effects: { mental: -10 }, emoji: '🏠' },
   ];
 
   function init(role) {
@@ -205,18 +205,15 @@ const GameEngine = (() => {
 
   function applyChapterDecay() {
     if (state.role === 'founder') {
-      // Harder decay: 1 month per chapter, +1 extra after ch3
-      const decay = state.chapter >= 4 ? 2 : 1;
-      state.stats.runway.value = Math.max(0, state.stats.runway.value - decay);
-      // Mental also decays
-      state.stats.mental.value = Math.max(0, state.stats.mental.value - 5);
+      // 1 month runway per chapter (time passes)
+      state.stats.runway.value = Math.max(0, state.stats.runway.value - 1);
     }
   }
 
-  // Roll for random disaster (founder only, ~40% chance per event transition)
+  // Roll for random disaster (founder only, ~20% chance per event transition)
   function rollDisaster() {
     if (state.role !== 'founder') return null;
-    if (Math.random() > 0.40) return null;
+    if (Math.random() > 0.20) return null;
 
     // Pick a random disaster not yet triggered
     const used = state.flags.filter(f => f.startsWith('disaster_'));
