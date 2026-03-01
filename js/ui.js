@@ -160,7 +160,7 @@ const GameUI = (() => {
 
     const chapter = scenariosForTitle.find(ch => ch.chapter === state.chapter);
     document.getElementById('hud-chapter').textContent = chapter
-      ? `CH${state.chapter}: ${chapter.title}`
+      ? chapter.title
       : `챕터 ${state.chapter}`;
 
     // Difficulty label
