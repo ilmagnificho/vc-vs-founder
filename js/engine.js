@@ -46,8 +46,8 @@ const GameEngine = (() => {
   // ===== SUCCESS ENDINGS =====
   const SUCCESS_ENDINGS = [
     'easy_smart_survivor', 'easy_pivot_master',
-    'normal_series_a_win', 'normal_bootstrap',
-    'hard_global_round', 'hard_strategic_ally',
+    'normal_series_a_win', 'normal_series_a_close', 'normal_bootstrap',
+    'hard_global_round', 'hard_global_close', 'hard_strategic_ally',
     'star_analyst',
   ];
 

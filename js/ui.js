@@ -453,6 +453,11 @@ const GameUI = (() => {
         ? '대표가 불만이지만 수용했다. 강한 보호조항이 붙은 텀시트에 사인했다.'
         : '대표가 거부했다. "이 조건으로는 못 합니다."\n\n딜이 깨졌다.';
     }
+    if (choice.flags && choice.flags.includes('bridge_attempt')) {
+      return succeeded
+        ? '브릿지 라운드가 성사됐다! 국내 VC가 팔로온으로 참여했다.\n\n크로스보더 딜은 다른 형태로 클로징됐다.'
+        : '브릿지 라운드도 실패했다. 런웨이가 끝났다.\n\n해외 VC가 조용히 연락을 끊었다. 이메일 답장이 72시간째 없다.';
+    }
     return succeeded ? '성공... 인가?' : '실패. 역시나.';
   }
 
@@ -460,6 +465,23 @@ const GameUI = (() => {
     const state = GameEngine.getState();
 
     if (state.role === 'founder') {
+      if (state.difficulty === 'hard') {
+        if (passed) {
+          return '파트너가 이메일을 보냈다.\n\n"조건을 검토했습니다. 진행하겠습니다."\n\n크로스보더 딜이 성사됐다. 이제 마지막 계약 조건을 정리해야 한다.';
+        } else {
+          return '파트너가 이메일을 보냈다.\n\n"솔직히 말씀드리면, 이번 라운드에서 저희가 참여하기 어려울 것 같습니다."\n\n영어로 된 거절은 한국어보다 더 차갑게 느껴졌다.';
+        }
+      }
+      if (state.difficulty === 'normal') {
+        if (passed) {
+          return '파트너들이 서로를 봤다. 그리고 고개를 끄덕였다.\n\n"좋습니다. 투심위 통과입니다. 텀시트 보내드리겠습니다."\n\n...하지만 아직 끝이 아니다. 텀시트라는 마지막 관문이 남아있다.';
+        } else {
+          if (choice.flags && choice.flags.includes('emotional_close')) {
+            return '감동적이었다. 하지만 파트너들은 팀이 아닌 스프레드시트를 믿는다.\n\n"좋은데- 좀 더 봐야 할 것 같아요"';
+          }
+          return '"좋은데- 좀 더 봐야 할 것 같아요"\n\n그 \'좋은데-\'가 거절의 시작이라는 걸, 이제 50번째 듣고 나서야 안다.';
+        }
+      }
       if (passed) {
         return '파트너들의 표정이 바뀌었다. 고개를 끄덕이기 시작한다.\n\n"좋습니다. 내부적으로 진행해보죠."\n\n투심위 통과! ...하지만 아직 끝이 아니다. 텀시트라는 마지막 관문이 남아있다.';
       } else {

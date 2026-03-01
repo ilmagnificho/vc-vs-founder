@@ -117,7 +117,7 @@ const FounderEasyScenarios = [
           },
           {
             text: '"가야 할 것 같으면 가. 억지로 못 잡아."',
-            effects: { mental: -11, persuasion: -7 },
+            effects: { mental: -7, persuasion: -7 },
             result: 'CTO가 떠났다. 2인 팀이 1인 팀이 됐다.\n\nVC: "팀이... 대표님 혼자세요?"\n\n혼자서 개발, 기획, IR을 다 해야 한다. 수면 시간: 4시간.',
             flags: ['cto_left'],
           },
